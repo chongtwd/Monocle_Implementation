@@ -5,7 +5,6 @@ Created on Tue Apr 20 20:37:47 2021
 
 @author: David Chong Tian Wei
 """
-import numpy as np
 
 class BinaryHeap:
     """
@@ -116,7 +115,7 @@ def Prims(G, inf=999999999):
     """
     Expect G to be an n x n ajacency matrix of an undirected graph
     """
-    g = []
+    g = [] # Here we are just converting our adjacency matrix into an adjacency list representation of a graph
     for i in range(G.shape[0]):
         edges = []
         for j in range(0, G.shape[0]):
@@ -125,18 +124,23 @@ def Prims(G, inf=999999999):
             else:
                 edges.append([j, G[i,j]])
         g.append(edges)
+    # We use a binary heap to help us find the vertex with the smallest edge weight to connect to our growing MST
     Q = BinaryHeap([[i, None, inf] for i in range(len(g))], lambda x,y : x[2] < y[2], lambda x : x[0])
+    # Storage for our growing MST
     mst = []
+    # We keep track of all vertices in the graph and initially leave them as unmarked
     reached = {}
     for i in range(len(Q)):
         reached[i] = False
+    # Start from any vertex
     i = 0
     while len(Q) > 1:
         reached[i] = True
+        # Update the list of vertices with the smallest weight connected to our growing MST
         for x in g[i]:
             if not reached[x[0]]:
                 Q.update(x[0], [x[0], i, x[1]])
-        v, u, w = Q.get()
-        mst.append((u, v, w))
+        v, u, w = Q.get() # Get the edge and vertex of smallest weight
+        mst.append((u, v, w)) # Add the edge and vertex to our growing MST
         i = v
     return mst

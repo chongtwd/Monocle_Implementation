@@ -9,7 +9,7 @@ import pygraphviz as pgv
 import numpy as np
 from Prims import Prims
 
-def generate_graph(n=20):
+def generate_graph(n=5):
     G = np.zeros(shape=(n,n))
     for i in range(n):
         for j in range(i+1,n):
@@ -30,8 +30,9 @@ G.draw("test.png")
 
 mst = Prims(g)
 
-for x in mst:
+for i in range(len(mst)):
+    x = mst[i]
     e = G.get_edge(str(x[0]), str(x[1]))
     e.attr["color"] = "red"
     e.attr["fontcolor"] = "red"
-G.draw("test_mst.png")
+    G.draw("test_mst_{}.png".format(i))
