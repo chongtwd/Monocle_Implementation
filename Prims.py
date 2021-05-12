@@ -127,7 +127,7 @@ def Prims(G, inf=999999999):
     # We use a binary heap to help us find the vertex with the smallest edge weight to connect to our growing MST
     Q = BinaryHeap([[i, None, inf] for i in range(len(g))], lambda x,y : x[2] < y[2], lambda x : x[0])
     # Storage for our growing MST
-    mst = []
+    mst = [[] for _ in range(G.shape[0])]
     # We keep track of all vertices in the graph and initially leave them as unmarked
     reached = {}
     for i in range(len(Q)):
@@ -140,7 +140,10 @@ def Prims(G, inf=999999999):
         for x in g[i]:
             if not reached[x[0]]:
                 Q.update(x[0], [x[0], i, x[1]])
-        v, u, w = Q.get() # Get the edge and vertex of smallest weight
-        mst.append((u, v, w)) # Add the edge and vertex to our growing MST
+        # Get the edge and vertex of smallest weight
+        v, u, w = Q.get()
+        # Add the edge to our growing mst
+        mst[v].append((u,w))
+        mst[u].append((v,w))
         i = v
     return mst

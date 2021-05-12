@@ -30,9 +30,9 @@ G.draw("test.png")
 
 mst = Prims(g)
 
-for i in range(len(mst)):
-    x = mst[i]
-    e = G.get_edge(str(x[0]), str(x[1]))
-    e.attr["color"] = "red"
-    e.attr["fontcolor"] = "red"
-    G.draw("test_mst_{}.png".format(i))
+for u in range(len(mst)):
+    for v in mst[u]:
+        e = G.get_edge(str(u), str(int(v[0])))
+        e.attr["color"] = "red"
+        e.attr["fontcolor"] = "red"
+    G.draw("test_mst_{}.png".format(u))
